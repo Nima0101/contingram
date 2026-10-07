@@ -48,7 +48,10 @@ Compose provisions development dependencies only. Remove them with
 ## HTTP contract
 
 All routes are under `/v1`; JSON unknown properties fail. Admin and invoke scopes
-are distinct. Errors are non-success HTTP responses; clients must check status.
+are distinct. Credentials are accepted only through the Authorization bearer header.
+CSRF protection remains enabled for requests without bearer credentials: unsafe
+requests missing CSRF tokens receive 403, while safe unauthenticated requests
+receive 401. Cookies do not authenticate requests. Errors are non-success HTTP responses; clients must check status.
 
 | Method/path | Body/result | Required scope |
 | --- | --- | --- |
@@ -95,7 +98,9 @@ ACLs before any exposure outside a trusted development network. TLS termination,
 request/concurrency/rate limits, data retention and multi-tenant administration
 are outside this reference. Local Compose uses plaintext development credentials.
 
-Artifacts are bounded to 64 KiB each; observation prefixes to 32. A configured
+Artifacts are bounded to 64 KiB each; observation prefixes to 32. Each observation
+must match `[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}`; option-like or shell-like input is
+rejected before starting the verifier. A configured
 trusted CLI executable runs without a shell, in a private temporary directory,
 with a five-second deadline. OS/process availability, the model author and the
 verifier remain trust boundaries. OpenTelemetry emits recovery spans and decision

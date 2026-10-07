@@ -42,8 +42,7 @@ public class Security {
 
   @Bean
   SecurityFilterChain chain(HttpSecurity http) throws Exception {
-    return http.csrf(c -> c.disable())
-        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    return http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             a ->
                 a.requestMatchers("/v1/admin/**")

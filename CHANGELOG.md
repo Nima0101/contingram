@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Keep CSRF protection for non-bearer requests and validate each process observation against a bounded allowlist, including rejection of leading hyphens. Add negative controls for both service boundaries.
+
 - Add an optional Java 21 control-plane reference with JWT authorization, PostgreSQL migrations and transactional intent/audit/outbox state, Kafka projection/replay, and OpenTelemetry recovery instrumentation. The offline Rust verifier remains unchanged and never executes tools.
 - Exercise authorization, concurrent duplicate intake, event gaps/redelivery, broker outage and checked recovery with real containers; build and smoke-test a local OCI image.
 - Document the separate service trust boundary and unreleased, non-production scope.

@@ -131,13 +131,30 @@ class PlatformTest {
   }
 
   @Test
+  void ambientCookiesCannotBypassCsrf() throws Exception {
+    http.perform(get("/v1/intents/missing/audit")).andExpect(status().isUnauthorized());
+    http.perform(
+            post("/v1/intents")
+                .cookie(
+                    new jakarta.servlet.http.Cookie(
+                        "access_token", token("alice", "invoke").substring(7)))
+                .contentType("application/json")
+                .content("{\"key\":\"cookie-only\",\"tool\":\"missing\"}"))
+        .andExpect(status().isForbidden());
+    assertThat(
+            db.queryForObject(
+                "SELECT count(*) FROM intents WHERE idem='cookie-only'", Integer.class))
+        .isZero();
+  }
+
+  @Test
   void authorizationAndDurableIntake() throws Exception {
     var tool = tool("receipt", 10);
     http.perform(
             post("/v1/admin/tools")
                 .contentType("application/json")
                 .content(json.writeValueAsString(tool)))
-        .andExpect(status().isUnauthorized());
+        .andExpect(status().isForbidden());
     http.perform(
             post("/v1/admin/tools")
                 .header("Authorization", token("alice", "invoke"))
