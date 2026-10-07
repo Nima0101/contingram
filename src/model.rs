@@ -3,6 +3,16 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 
+fn encode_hex(bytes: &[u8]) -> String {
+    const HEX: &[u8; 16] = b"0123456789abcdef";
+    let mut encoded = String::with_capacity(bytes.len() * 2);
+    for &byte in bytes {
+        encoded.push(char::from(HEX[usize::from(byte >> 4)]));
+        encoded.push(char::from(HEX[usize::from(byte & 0x0f)]));
+    }
+    encoded
+}
+
 /// A named finite domain, sorted in normalized models.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -183,7 +193,7 @@ pub fn compile(contract: &Contract) -> Result<Model, Error> {
         ir.actions.push(action);
     }
     let bytes = serde_json::to_vec(&ir).expect("finite IR serializes");
-    let digest = format!("{:x}", Sha256::digest(&bytes));
+    let digest = encode_hex(Sha256::digest(&bytes).as_ref());
     Ok(Model {
         ir,
         digest,
