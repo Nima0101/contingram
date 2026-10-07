@@ -115,3 +115,12 @@ Contingram builds on classical contingent planning and partial-observation games
 The CI matrix targets Linux x86_64, macOS arm64 and Windows x86_64. Platform support and release claims require completed hosted checks; inspect the repository's Actions results and release evidence. The core forbids unsafe Rust; untrusted inputs and computation are bounded. See [security policy](SECURITY.md), [verification](docs/verification.md) and [AI-assisted engineering](docs/ai-assisted-engineering.md).
 
 Licensed under [Apache-2.0](LICENSE). Preserve [NOTICE](NOTICE) as required. [Third-party notices](docs/third-party-licenses.md) retain dependency and Rust library license texts. [Trademark policy](TRADEMARKS.md) governs branding, without adding restrictions to the licensed code. [Roadmap](ROADMAP.md) describes future work.
+
+## Optional control-plane reference
+
+The Git checkout's `platform/` directory contains a separate Java 21/Spring Boot
+reference with PostgreSQL intent/audit/outbox transactions, JWT authorization,
+Kafka delivery/replay and checked offline recovery recommendations. It never
+executes external tools. See `platform/README.md` for the real-container test
+command, event contract and operational limits. This companion is not part of
+the Rust crate or the existing v0.1.0 release; no deployment or adoption is claimed.

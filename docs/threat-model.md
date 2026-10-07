@@ -93,3 +93,9 @@ No automated scan, synthetic corpus, or agent review is described as a formal
 proof or independent human audit. Bugs implementing the stated finite
 semantics, bounds, or privacy boundary remain reportable under
 [SECURITY.md](../SECURITY.md).
+
+## Optional platform boundary
+
+The statements above concern the offline Rust core. The separate
+platform reference (`platform/README.md` in the Git checkout) adds a network service, issuer trust,
+database and event transport with its own documented threats and limitations.

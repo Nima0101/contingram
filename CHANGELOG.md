@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add an optional Java 21 control-plane reference with JWT authorization, PostgreSQL migrations and transactional intent/audit/outbox state, Kafka projection/replay, and OpenTelemetry recovery instrumentation. The offline Rust verifier remains unchanged and never executes tools.
+- Exercise authorization, concurrent duplicate intake, event gaps/redelivery, broker outage and checked recovery with real containers; build and smoke-test a local OCI image.
+- Document the separate service trust boundary and unreleased, non-production scope.
+
 ## 0.1.0
 
 Initial release scope:

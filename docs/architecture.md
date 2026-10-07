@@ -59,3 +59,10 @@ Telemetry preferences and coarse event types live outside model semantics.
 v0.1 has no telemetry endpoint or network transport. See
 [telemetry](telemetry.md), [format](protocol-or-format.md), and
 [threat model](threat-model.md).
+
+## Separate platform reference
+
+The optional control plane (`platform/README.md` in the Git checkout) wraps the CLI in a Java service
+with PostgreSQL intent/audit/outbox transactions and Kafka projections. Its
+network, authorization and operational boundaries do not belong to the offline
+Rust library. It returns recommendations and does not execute tools.
