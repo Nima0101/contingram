@@ -14,7 +14,7 @@ include = ["/src/**", "/tests/**", "/examples/**", "/docs/**", "/benchmarks/**",
 [dependencies]
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = "=1.0.151"
-sha2 = "=0.10.9"
+sha2 = "=0.11.0"
 
 [lints.rust]
 unsafe_code = "forbid"
