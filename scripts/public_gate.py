@@ -21,11 +21,11 @@ import zipfile
 ROOT_FILES = {
     "Cargo.toml", "Cargo.lock", "README.md", "LICENSE", "NOTICE", "SECURITY.md",
     "TRADEMARKS.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "CHANGELOG.md",
-    "ROADMAP.md", "GOVERNANCE.md", ".gitignore", ".gitattributes", ".editorconfig", "deny.toml",
+    "ROADMAP.md", "GOVERNANCE.md", "AGENTS.md", ".gitignore", ".gitattributes", ".editorconfig", "deny.toml",
 }
 PUBLIC_DIRS = {"src", "tests", "examples", "docs", "benchmarks", ".github"}
 SCRIPTS = {"public_gate.py", "package_consumer.py", "sbom.py", "release_archive.py",
-           "evaluate.py", "benchmark.py", "third_party_licenses.py"}
+           "evaluate.py", "benchmark.py", "third_party_licenses.py", "verify-local.sh"}
 FUZZ_FILES = {"Cargo.toml", "Cargo.lock", "README.md", ".gitignore"}
 
 
@@ -51,6 +51,16 @@ def allowed(name):
         return False
     if len(p.parts) == 1:
         return name in ROOT_FILES
+    if p.parts[0] == "platform":
+        if len(p.parts) == 2:
+            return p.name in {"pom.xml", "README.md", ".gitignore", "compose.yaml", "Dockerfile"}
+        if p.parts[1] == "scripts":
+            return len(p.parts) == 3 and p.name in {"verify-local.sh", "container_smoke.py"}
+        if p.parts[1:4] in (("src", "main", "java"), ("src", "test", "java")):
+            return p.suffix == ".java"
+        if p.parts[1:4] == ("src", "main", "resources"):
+            return p.as_posix() in {"platform/src/main/resources/application.properties", "platform/src/main/resources/db/migration/V1__control_plane.sql"}
+        return False
     if p.parts[0] in PUBLIC_DIRS:
         return True
     if p.parts[0] == "scripts":
@@ -181,6 +191,12 @@ def self_test():
     assert manifest_errors('include = ["README.md", "/src/**"]')
     assert not manifest_errors('include = ["/README.md", "/src/**"]')
     assert allowed("src/lib.rs")
+    assert allowed("AGENTS.md")
+    assert allowed("scripts/verify-local.sh")
+    assert allowed("platform/src/main/java/io/contingram/platform/Api.java")
+    assert not allowed("platform/target/service.jar")
+    assert not allowed("platform/.env")
+    assert not allowed("platform/src/main/resources/issuer-private.pem")
     assert not allowed(".mission/evidence.md")
     assert not allowed("scripts/start_astra_high_flagship.sh")
     assert not allowed("src/../.mission/evidence.md")

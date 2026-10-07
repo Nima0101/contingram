@@ -12,3 +12,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+  - package-ecosystem: maven
+    directory: /platform
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: /platform
+    schedule:
+      interval: weekly
