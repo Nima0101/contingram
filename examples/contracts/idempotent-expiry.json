@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "name": "idempotent-expiry",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "expired-absent",
+        "expired-done",
+        "valid-absent",
+        "valid-done",
+        "bad"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "expired-absent"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "expired-done"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "valid-absent"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "valid-done"
+      }
+    ]
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "state",
+      "value": "bad"
+    }
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "expired-done"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "valid-done"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "retry",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "expired-absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "expired-done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "valid-absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "valid-done"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "expired-absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "expired-done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "expired-done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "valid-absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "valid-done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "valid-done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "valid-done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r4",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    }
+  ]
+}

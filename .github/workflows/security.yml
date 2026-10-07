@@ -1,0 +1,70 @@
+name: Security
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '31 6 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dependencies:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install stable --profile minimal
+      - run: rustup default stable
+      - run: cargo install cargo-audit --locked --version 0.22.2
+      - run: cargo install cargo-deny --locked --version 0.20.2
+      - run: cargo audit --deny warnings
+      - run: cargo audit --file fuzz/Cargo.lock --deny warnings
+      - run: cargo deny --locked check
+  secrets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install checksum-pinned gitleaks
+        shell: bash
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz -o "$RUNNER_TEMP/gitleaks.tar.gz"
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+      - run: '"$RUNNER_TEMP/gitleaks" git --redact --no-banner --log-opts="--all" .'
+      - run: python3 scripts/public_gate.py
+  sanitizer-fuzz:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install nightly-2026-10-01 --profile minimal
+      - name: AddressSanitizer test suite
+        run: cargo +nightly-2026-10-01 test --locked --target x86_64-unknown-linux-gnu --all-targets
+        env:
+          RUSTFLAGS: -Zsanitizer=address
+          ASAN_OPTIONS: detect_leaks=1
+      - run: cargo +nightly-2026-10-01 install cargo-fuzz --locked --version 0.13.2
+      - name: Seed semantic fuzz corpora
+        shell: bash
+        run: |
+          mkdir -p fuzz/corpus/contract fuzz/corpus/report
+          cp examples/contracts/*.json fuzz/corpus/contract/
+          cargo +nightly-2026-10-01 run --locked -- analyze examples/contracts/receipt.json > fuzz/corpus/report/positive.json
+          set +e
+          cargo +nightly-2026-10-01 run --locked -- analyze examples/contracts/receipt.json --horizon 1 > fuzz/corpus/report/negative.json
+          result=$?
+          test "$result" = 1 || exit 1
+          cargo +nightly-2026-10-01 run --locked -- analyze examples/contracts/receipt.json --max-work 0 > fuzz/corpus/report/unknown.json
+          result=$?
+          test "$result" = 3 || exit 1
+      - run: cargo +nightly-2026-10-01 fuzz run contract -- -max_total_time=60 -max_len=65536 -rss_limit_mb=2048
+      - run: cargo +nightly-2026-10-01 fuzz run report -- -max_total_time=60 -max_len=65536 -rss_limit_mb=2048

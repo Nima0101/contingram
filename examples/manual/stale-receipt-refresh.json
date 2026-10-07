@@ -1,0 +1,45 @@
+{
+  "horizon": 3,
+  "certificate": {
+    "root": 3,
+    "nodes": [
+      {
+        "kind": "goal"
+      },
+      {
+        "kind": "choose",
+        "action": "send",
+        "branches": [
+          {
+            "observation": "ack",
+            "next": 0
+          }
+        ]
+      },
+      {
+        "kind": "choose",
+        "action": "status",
+        "branches": [
+          {
+            "observation": "absent",
+            "next": 1
+          },
+          {
+            "observation": "done",
+            "next": 0
+          }
+        ]
+      },
+      {
+        "kind": "choose",
+        "action": "refresh",
+        "branches": [
+          {
+            "observation": "refresh-ack",
+            "next": 2
+          }
+        ]
+      }
+    ]
+  }
+}

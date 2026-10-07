@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "name": "identity-expired-ledger",
+  "variables": [
+    {
+      "name": "count",
+      "values": [
+        "zero",
+        "one",
+        "duplicate"
+      ]
+    },
+    {
+      "name": "key",
+      "values": [
+        "retained",
+        "expired"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "all",
+    "args": [
+      {
+        "op": "eq",
+        "var": "key",
+        "value": "retained"
+      },
+      {
+        "op": "not",
+        "arg": {
+          "op": "eq",
+          "var": "count",
+          "value": "duplicate"
+        }
+      }
+    ]
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "count",
+      "value": "duplicate"
+    }
+  },
+  "goal": {
+    "op": "eq",
+    "var": "count",
+    "value": "one"
+  },
+  "actions": [
+    {
+      "id": "resend",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "first",
+          "when": {
+            "op": "eq",
+            "var": "count",
+            "value": "zero"
+          },
+          "set": [
+            {
+              "var": "count",
+              "value": "one"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "dedup",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "count",
+                "value": "one"
+              },
+              {
+                "op": "eq",
+                "var": "key",
+                "value": "retained"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "ack"
+        },
+        {
+          "id": "expired",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "count",
+                "value": "one"
+              },
+              {
+                "op": "eq",
+                "var": "key",
+                "value": "expired"
+              }
+            ]
+          },
+          "set": [
+            {
+              "var": "count",
+              "value": "duplicate"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "bad",
+          "when": {
+            "op": "eq",
+            "var": "count",
+            "value": "duplicate"
+          },
+          "set": [],
+          "observe": "ack"
+        },
+        {
+          "id": "expiry-during-retry",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "count",
+                "value": "one"
+              },
+              {
+                "op": "eq",
+                "var": "key",
+                "value": "retained"
+              }
+            ]
+          },
+          "set": [
+            {
+              "var": "key",
+              "value": "expired"
+            },
+            {
+              "var": "count",
+              "value": "duplicate"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "ledger",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "read-zero",
+          "when": {
+            "op": "eq",
+            "var": "count",
+            "value": "zero"
+          },
+          "set": [
+            {
+              "var": "key",
+              "value": "expired"
+            }
+          ],
+          "observe": "zero"
+        },
+        {
+          "id": "read-one",
+          "when": {
+            "op": "eq",
+            "var": "count",
+            "value": "one"
+          },
+          "set": [
+            {
+              "var": "key",
+              "value": "expired"
+            }
+          ],
+          "observe": "one"
+        },
+        {
+          "id": "read-duplicate",
+          "when": {
+            "op": "eq",
+            "var": "count",
+            "value": "duplicate"
+          },
+          "set": [
+            {
+              "var": "key",
+              "value": "expired"
+            }
+          ],
+          "observe": "duplicate"
+        }
+      ]
+    }
+  ]
+}

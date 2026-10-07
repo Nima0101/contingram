@@ -1,0 +1,10 @@
+name: Feature request
+description: Explain a bounded recovery modeling or verification need.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and proposed behavior
+      description: Include a synthetic example and explain why current modeling is insufficient.
+    validations:
+      required: true

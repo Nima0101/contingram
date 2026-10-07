@@ -1,0 +1,168 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require exact tagged source and successful main checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re, subprocess, tomllib
+          tag = os.environ['RELEASE_TAG']
+          if not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+', tag):
+              raise SystemExit('invalid release tag')
+          manifest = tomllib.loads(pathlib.Path('Cargo.toml').read_text())
+          if tag != 'v' + manifest['package']['version']:
+              raise SystemExit('tag and package version differ')
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          subprocess.run(['git', 'merge-base', '--is-ancestor', sha, 'origin/main'], check=True)
+          data = json.loads(subprocess.check_output(['gh', 'api',
+              'repos/' + os.environ['REPOSITORY'] + '/actions/runs?head_sha=' + sha + '&event=push&per_page=100']))
+          for name in ['CI', 'Security', 'CodeQL']:
+              runs = [r for r in data['workflow_runs'] if r['name'] == name and r['head_branch'] == 'main']
+              if not runs or max(runs, key=lambda r:r['id'])['conclusion'] != 'success':
+                  raise SystemExit('required workflow not green for tagged commit: ' + name)
+          pages = json.loads(subprocess.check_output(['gh', 'api', '--paginate', '--slurp',
+              'repos/' + os.environ['REPOSITORY'] + '/code-scanning/alerts?state=open&per_page=100']))
+          if any(pages):
+              raise SystemExit('open code-scanning alerts must be resolved before release')
+          print('Exact tagged commit has successful CI, Security, and CodeQL runs on main.')
+          PY
+  build:
+    needs: gate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+          - os: macos-14
+            target: aarch64-apple-darwin
+          - os: windows-2022
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - run: rustup toolchain install stable --profile minimal
+      - run: rustup default stable
+      - name: Build without machine-specific source paths
+        shell: bash
+        env:
+          RELEASE_TARGET: ${{ matrix.target }}
+        run: |
+          export RUSTFLAGS="--remap-path-prefix=$GITHUB_WORKSPACE=. --remap-path-prefix=${USERPROFILE:-$HOME}=/build"
+          cargo build --locked --release --target "$RELEASE_TARGET"
+      - name: Smoke exact native release executable
+        shell: bash
+        env:
+          RELEASE_TARGET: ${{ matrix.target }}
+        run: |
+          python - <<'PY'
+          import os, pathlib, subprocess
+          target=os.environ['RELEASE_TARGET']
+          binary=pathlib.Path('target')/target/'release'/('contingram.exe' if 'windows' in target else 'contingram')
+          for arguments in [['--version'], ['demo'], ['telemetry', 'status']]:
+              subprocess.run([str(binary), *arguments], check=True)
+          PY
+      - name: Preserve dependency and exact toolchain license notices
+        run: python scripts/third_party_licenses.py --output THIRD_PARTY_NOTICES.md
+      - name: Archive allowlisted binary and notices
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TARGET: ${{ matrix.target }}
+        run: |
+          python scripts/release_archive.py --version "${RELEASE_TAG#v}" --target "$RELEASE_TARGET" --notices THIRD_PARTY_NOTICES.md
+          for archive in dist/*; do python scripts/public_gate.py --archive "$archive"; done
+      - name: Create resolved dependency SBOM
+        if: runner.os == 'Linux'
+        run: python scripts/sbom.py --output dist/contingram.spdx.json
+      - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
+        with:
+          subject-path: dist/*
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 7
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: release-*
+          path: dist
+          merge-multiple: true
+      - name: Checksums and asset inventory
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, pathlib
+          root=pathlib.Path('dist')
+          files=sorted(root.iterdir())
+          if len(files)!=4 or sum(p.suffix=='.zip' for p in files)!=1 or sum(p.name.endswith('.tar.gz') for p in files)!=2:
+              raise SystemExit('unexpected release asset inventory')
+          (root/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in files))
+          PY
+      - uses: actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.zip
+          sbom-path: dist/contingram.spdx.json
+      - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
+        with:
+          subject-path: dist/SHA256SUMS
+      - name: Publish complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/release-notes.md" <<'MD'
+          Bounded recovery-policy synthesis and independent portable artifact verification.
+
+          Archives contain the CLI, license, copyright notice, README, and trademark policy. SHA256SUMS covers all archives and the SPDX dependency SBOM. Verify provenance with `gh attestation verify ASSET --repo Nima0101/contingram`; attestations establish build origin, not proof of model correctness.
+
+          Telemetry collection is disabled in this release. See the README and docs for scope, assumptions, and verification limits.
+          MD
+          gh release create "$RELEASE_TAG" dist/* --verify-tag --title "Contingram $RELEASE_TAG" --notes-file "$RUNNER_TEMP/release-notes.md"

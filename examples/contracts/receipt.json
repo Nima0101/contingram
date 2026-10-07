@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "receipt",
+  "variables": [{"name":"effect","values":["absent","done","duplicate"]}],
+  "initial": {"op":"any","args":[{"op":"eq","var":"effect","value":"absent"},{"op":"eq","var":"effect","value":"done"}]},
+  "safe": {"op":"not","arg":{"op":"eq","var":"effect","value":"duplicate"}},
+  "goal": {"op":"eq","var":"effect","value":"done"},
+  "actions": [
+    {"id":"send","enabled":{"op":"true"},"outcomes":[
+      {"id":"first","when":{"op":"eq","var":"effect","value":"absent"},"set":[{"var":"effect","value":"done"}],"observe":"ack"},
+      {"id":"again","when":{"op":"not","arg":{"op":"eq","var":"effect","value":"absent"}},"set":[{"var":"effect","value":"duplicate"}],"observe":"ack"}
+    ]},
+    {"id":"status","enabled":{"op":"true"},"outcomes":[
+      {"id":"none","when":{"op":"eq","var":"effect","value":"absent"},"set":[],"observe":"absent-final"},
+      {"id":"yes","when":{"op":"eq","var":"effect","value":"done"},"set":[],"observe":"committed"},
+      {"id":"bad","when":{"op":"eq","var":"effect","value":"duplicate"},"set":[],"observe":"duplicate"}
+    ]}
+  ]
+}
+

@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "name": "revocation-stale-check",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "active",
+        "revoked",
+        "done",
+        "bad"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "active"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "revoked"
+      }
+    ]
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "state",
+      "value": "bad"
+    }
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "use",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "active"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "revoked"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "active"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "revoked"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "active"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "revoked"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "active"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "active"
+            }
+          ],
+          "observe": "active"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "revoked"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "revoked"
+            }
+          ],
+          "observe": "revoked"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "revoked"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "revoked"
+        },
+        {
+          "id": "r4",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "active"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "revoked"
+            }
+          ],
+          "observe": "active"
+        }
+      ]
+    }
+  ]
+}

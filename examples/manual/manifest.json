@@ -1,0 +1,23 @@
+{
+  "basis": "Observation tables authored from contract semantics without synthesis. Binding metadata is supplied by the test harness.",
+  "cases": [
+    {
+      "file": "stale-receipt-refresh.json",
+      "contract": "stale-receipt-refresh.json",
+      "naive_action": "send",
+      "naive_observation": "ack"
+    },
+    {
+      "file": "identity-expired-ledger.json",
+      "contract": "identity-expired-ledger.json",
+      "naive_action": "resend",
+      "naive_observation": "ack"
+    },
+    {
+      "file": "partial-stage-status.json",
+      "contract": "partial-stage-status.json",
+      "naive_action": "notify",
+      "naive_observation": "notified"
+    }
+  ]
+}

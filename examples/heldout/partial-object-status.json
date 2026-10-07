@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "name": "partial-object-status",
+  "variables": [
+    {
+      "name": "reservation",
+      "values": [
+        "none",
+        "held"
+      ]
+    },
+    {
+      "name": "notification",
+      "values": [
+        "none",
+        "sent"
+      ]
+    },
+    {
+      "name": "violation",
+      "values": [
+        "no",
+        "yes"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "all",
+    "args": [
+      {
+        "op": "eq",
+        "var": "violation",
+        "value": "no"
+      },
+      {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "reservation",
+            "value": "held"
+          },
+          {
+            "op": "not",
+            "arg": {
+              "op": "eq",
+              "var": "notification",
+              "value": "sent"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "safe": {
+    "op": "eq",
+    "var": "violation",
+    "value": "no"
+  },
+  "goal": {
+    "op": "all",
+    "args": [
+      {
+        "op": "eq",
+        "var": "reservation",
+        "value": "held"
+      },
+      {
+        "op": "eq",
+        "var": "notification",
+        "value": "sent"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "reserve",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "first",
+          "when": {
+            "op": "not",
+            "arg": {
+              "op": "eq",
+              "var": "reservation",
+              "value": "held"
+            }
+          },
+          "set": [
+            {
+              "var": "reservation",
+              "value": "held"
+            }
+          ],
+          "observe": "reserved"
+        },
+        {
+          "id": "duplicate",
+          "when": {
+            "op": "eq",
+            "var": "reservation",
+            "value": "held"
+          },
+          "set": [
+            {
+              "var": "violation",
+              "value": "yes"
+            }
+          ],
+          "observe": "reserved"
+        }
+      ]
+    },
+    {
+      "id": "notify",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "first",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "reservation",
+                "value": "held"
+              },
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "notification",
+                  "value": "sent"
+                }
+              }
+            ]
+          },
+          "set": [
+            {
+              "var": "notification",
+              "value": "sent"
+            }
+          ],
+          "observe": "notified"
+        },
+        {
+          "id": "orphan",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "reservation",
+                  "value": "held"
+                }
+              },
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "notification",
+                  "value": "sent"
+                }
+              }
+            ]
+          },
+          "set": [
+            {
+              "var": "violation",
+              "value": "yes"
+            }
+          ],
+          "observe": "notified"
+        },
+        {
+          "id": "duplicate",
+          "when": {
+            "op": "eq",
+            "var": "notification",
+            "value": "sent"
+          },
+          "set": [
+            {
+              "var": "violation",
+              "value": "yes"
+            }
+          ],
+          "observe": "notified"
+        }
+      ]
+    },
+    {
+      "id": "inspect",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "empty",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "reservation",
+                  "value": "held"
+                }
+              },
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "notification",
+                  "value": "sent"
+                }
+              }
+            ]
+          },
+          "set": [],
+          "observe": "empty"
+        },
+        {
+          "id": "partial",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "reservation",
+                "value": "held"
+              },
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "notification",
+                  "value": "sent"
+                }
+              }
+            ]
+          },
+          "set": [],
+          "observe": "record-exists"
+        },
+        {
+          "id": "complete",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "reservation",
+                "value": "held"
+              },
+              {
+                "op": "eq",
+                "var": "notification",
+                "value": "sent"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "record-exists"
+        },
+        {
+          "id": "orphan",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "not",
+                "arg": {
+                  "op": "eq",
+                  "var": "reservation",
+                  "value": "held"
+                }
+              },
+              {
+                "op": "eq",
+                "var": "notification",
+                "value": "sent"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "orphan"
+        }
+      ]
+    }
+  ]
+}

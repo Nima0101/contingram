@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "provenance": "Original synthetic finite contracts authored for Contingram on 2026-10-07; no provider semantics or private data. Expectations frozen before synthesis execution. Held-out means authored independently of solver implementation, not a statistical generalization claim.",
+  "cases": [
+    {
+      "file": "late-pending.json",
+      "split": "development",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "A negative read can accompany pending or committed effect; retry may duplicate and waiting has no fairness."
+    },
+    {
+      "file": "late-pending-fenced.json",
+      "split": "development",
+      "horizon": 2,
+      "expected_status": "policy_found",
+      "reason": "Settle consumes pending work and gives a final negative or committed result; only final negative permits send."
+    },
+    {
+      "file": "stale-read.json",
+      "split": "development",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "Both replica labels are possible in both safe worlds and reveal no completion knowledge."
+    },
+    {
+      "file": "identity-mismatch.json",
+      "split": "development",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "A foreign receipt is observationally identical to this operation receipt."
+    },
+    {
+      "file": "identity-bound.json",
+      "split": "development",
+      "horizon": 2,
+      "expected_status": "policy_found",
+      "reason": "Identity-bound status separates foreign receipts, allowing completion without duplicate effect."
+    },
+    {
+      "file": "partial-completion.json",
+      "split": "development",
+      "horizon": 3,
+      "expected_status": "policy_found",
+      "reason": "Inspect separates partial states; the none branch requires both missing components."
+    },
+    {
+      "file": "idempotent-retry.json",
+      "split": "development",
+      "horizon": 1,
+      "expected_status": "policy_found",
+      "reason": "A valid deduplication key makes retry safe without any status operation."
+    },
+    {
+      "file": "idempotent-expiry.json",
+      "split": "held-out",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "Unknown key expiration admits duplicate retry; key validity is hidden and no sensing exists."
+    },
+    {
+      "file": "multistep-sensing.json",
+      "split": "held-out",
+      "horizon": 3,
+      "expected_status": "policy_found",
+      "reason": "Classify, conditional detail, and the matching resolution are needed in b/c histories."
+    },
+    {
+      "file": "cancellation-ack.json",
+      "split": "held-out",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "Cancellation acknowledgment does not prove quiescence; a pending poll branch can persist forever."
+    },
+    {
+      "file": "cancellation-drained.json",
+      "split": "held-out",
+      "horizon": 2,
+      "expected_status": "policy_found",
+      "reason": "Cancel then drain reaches known quiescence; drain is unavailable before acknowledgment."
+    },
+    {
+      "file": "three-world-obstruction.json",
+      "split": "held-out",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "Every pair of initial worlds has a safe action, but no action is enabled in all three."
+    },
+    {
+      "file": "revocation-race.json",
+      "split": "held-out",
+      "horizon": 0,
+      "expected_status": "policy_found",
+      "reason": "At horizon zero the initial safe goal already holds; no unnecessary action is required."
+    },
+    {
+      "file": "revocation-stale-check.json",
+      "split": "held-out",
+      "horizon": 4,
+      "expected_status": "no_policy_within_horizon",
+      "reason": "A formerly active response may race with revocation; no observation licenses a universally safe use."
+    }
+  ]
+}

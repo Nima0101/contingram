@@ -1,0 +1,1309 @@
+{
+  "architecture": "aarch64",
+  "debug_assertions": false,
+  "os": "macos",
+  "results": [
+    {
+      "actions": 3,
+      "artifact_bytes": 538,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 30
+      },
+      "combined": {
+        "max": 2059000,
+        "median": 39667,
+        "min": 31375,
+        "p95": 72958,
+        "unit": "nanoseconds"
+      },
+      "edges": 8,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 2,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 30
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 55875,
+        "median": 30042,
+        "min": 27416,
+        "p95": 44416,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 2027000,
+        "median": 9417,
+        "min": 3875,
+        "p95": 17042,
+        "unit": "nanoseconds"
+      },
+      "worlds": 4
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 538,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 30
+      },
+      "combined": {
+        "max": 71625,
+        "median": 14458,
+        "min": 14042,
+        "p95": 16042,
+        "unit": "nanoseconds"
+      },
+      "edges": 8,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 2,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 30
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 66916,
+        "median": 10917,
+        "min": 10584,
+        "p95": 12250,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 4625,
+        "median": 3417,
+        "min": 3333,
+        "p95": 3792,
+        "unit": "nanoseconds"
+      },
+      "worlds": 4
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1115,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 83
+      },
+      "combined": {
+        "max": 913250,
+        "median": 77333,
+        "min": 29834,
+        "p95": 330417,
+        "unit": "nanoseconds"
+      },
+      "edges": 8,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 2,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 58
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 889917,
+        "median": 55791,
+        "min": 21417,
+        "p95": 307375,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 192917,
+        "median": 21542,
+        "min": 8167,
+        "p95": 95750,
+        "unit": "nanoseconds"
+      },
+      "worlds": 4
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 1500,
+        "median": 1042,
+        "min": 916,
+        "p95": 1125,
+        "unit": "nanoseconds"
+      },
+      "edges": 8,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 2,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 1208,
+        "median": 667,
+        "min": 625,
+        "p95": 833,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 4
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 538,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 44
+      },
+      "combined": {
+        "max": 63125,
+        "median": 43041,
+        "min": 15916,
+        "p95": 49542,
+        "unit": "nanoseconds"
+      },
+      "edges": 16,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 4,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 50
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 50584,
+        "median": 32500,
+        "min": 12000,
+        "p95": 42875,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 19959,
+        "median": 10333,
+        "min": 3833,
+        "p95": 12250,
+        "unit": "nanoseconds"
+      },
+      "worlds": 8
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 810,
+      "checker_stats": {
+        "nodes": 9,
+        "work": 66
+      },
+      "combined": {
+        "max": 1989542,
+        "median": 68125,
+        "min": 64208,
+        "p95": 223000,
+        "unit": "nanoseconds"
+      },
+      "edges": 16,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 4,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 9,
+        "work": 69
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 1970667,
+        "median": 51500,
+        "min": 48083,
+        "p95": 204916,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 18708,
+        "median": 16083,
+        "min": 15625,
+        "p95": 18667,
+        "unit": "nanoseconds"
+      },
+      "worlds": 8
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1116,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 125
+      },
+      "combined": {
+        "max": 1716750,
+        "median": 142958,
+        "min": 34416,
+        "p95": 918292,
+        "unit": "nanoseconds"
+      },
+      "edges": 16,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 4,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 100
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 891917,
+        "median": 68791,
+        "min": 24333,
+        "p95": 355209,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 1692208,
+        "median": 26417,
+        "min": 9667,
+        "p95": 395083,
+        "unit": "nanoseconds"
+      },
+      "worlds": 8
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 1000,
+        "median": 1000,
+        "min": 958,
+        "p95": 1000,
+        "unit": "nanoseconds"
+      },
+      "edges": 16,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 4,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 750,
+        "median": 708,
+        "min": 666,
+        "p95": 709,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 8
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 538,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 72
+      },
+      "combined": {
+        "max": 1588334,
+        "median": 52208,
+        "min": 51833,
+        "p95": 62750,
+        "unit": "nanoseconds"
+      },
+      "edges": 32,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 8,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 90
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 1574209,
+        "median": 39416,
+        "min": 39000,
+        "p95": 49750,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 14709,
+        "median": 12667,
+        "min": 12500,
+        "p95": 13875,
+        "unit": "nanoseconds"
+      },
+      "worlds": 16
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1363,
+      "checker_stats": {
+        "nodes": 17,
+        "work": 162
+      },
+      "combined": {
+        "max": 2921792,
+        "median": 123708,
+        "min": 47250,
+        "p95": 1730250,
+        "unit": "nanoseconds"
+      },
+      "edges": 32,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 8,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 17,
+        "work": 183
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 2887042,
+        "median": 92584,
+        "min": 35541,
+        "p95": 171833,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 1625542,
+        "median": 30625,
+        "min": 11541,
+        "p95": 34375,
+        "unit": "nanoseconds"
+      },
+      "worlds": 16
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1116,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 209
+      },
+      "combined": {
+        "max": 3559750,
+        "median": 122833,
+        "min": 113500,
+        "p95": 2828791,
+        "unit": "nanoseconds"
+      },
+      "edges": 32,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 8,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 184
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 2800750,
+        "median": 86375,
+        "min": 80542,
+        "p95": 124208,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 3475792,
+        "median": 33458,
+        "min": 27917,
+        "p95": 48000,
+        "unit": "nanoseconds"
+      },
+      "worlds": 16
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 1334,
+        "median": 1000,
+        "min": 959,
+        "p95": 1084,
+        "unit": "nanoseconds"
+      },
+      "edges": 32,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 8,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 1042,
+        "median": 708,
+        "min": 667,
+        "p95": 792,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 16
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 539,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 128
+      },
+      "combined": {
+        "max": 1411458,
+        "median": 44292,
+        "min": 27250,
+        "p95": 304792,
+        "unit": "nanoseconds"
+      },
+      "edges": 64,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 16,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 170
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 286375,
+        "median": 23250,
+        "min": 20083,
+        "p95": 195083,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 1391166,
+        "median": 7125,
+        "min": 6667,
+        "p95": 144709,
+        "unit": "nanoseconds"
+      },
+      "worlds": 32
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 2467,
+      "checker_stats": {
+        "nodes": 33,
+        "work": 450
+      },
+      "combined": {
+        "max": 5258750,
+        "median": 370417,
+        "min": 137291,
+        "p95": 4696875,
+        "unit": "nanoseconds"
+      },
+      "edges": 64,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 16,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 33,
+        "work": 555
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 5092666,
+        "median": 315250,
+        "min": 103250,
+        "p95": 4338125,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 663333,
+        "median": 66167,
+        "min": 24875,
+        "p95": 358583,
+        "unit": "nanoseconds"
+      },
+      "worlds": 32
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1116,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 377
+      },
+      "combined": {
+        "max": 4198375,
+        "median": 451833,
+        "min": 168875,
+        "p95": 2601834,
+        "unit": "nanoseconds"
+      },
+      "edges": 64,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 16,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 352
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 2364042,
+        "median": 292750,
+        "min": 70833,
+        "p95": 1309667,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 3301792,
+        "median": 68750,
+        "min": 20958,
+        "p95": 301416,
+        "unit": "nanoseconds"
+      },
+      "worlds": 32
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 2083,
+        "median": 1041,
+        "min": 958,
+        "p95": 1583,
+        "unit": "nanoseconds"
+      },
+      "edges": 64,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 16,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 1792,
+        "median": 750,
+        "min": 667,
+        "p95": 1291,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 32
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 539,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 240
+      },
+      "combined": {
+        "max": 1285833,
+        "median": 249834,
+        "min": 132791,
+        "p95": 417834,
+        "unit": "nanoseconds"
+      },
+      "edges": 128,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 32,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 330
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 1252750,
+        "median": 126167,
+        "min": 36708,
+        "p95": 277708,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 308459,
+        "median": 55458,
+        "min": 31667,
+        "p95": 245958,
+        "unit": "nanoseconds"
+      },
+      "worlds": 64
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 4688,
+      "checker_stats": {
+        "nodes": 65,
+        "work": 1410
+      },
+      "combined": {
+        "max": 3166625,
+        "median": 604458,
+        "min": 213167,
+        "p95": 2370125,
+        "unit": "nanoseconds"
+      },
+      "edges": 128,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 32,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 65,
+        "work": 1875
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 2885292,
+        "median": 423166,
+        "min": 159667,
+        "p95": 2131542,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 2110625,
+        "median": 143500,
+        "min": 51416,
+        "p95": 281084,
+        "unit": "nanoseconds"
+      },
+      "worlds": 64
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1116,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 713
+      },
+      "combined": {
+        "max": 2681958,
+        "median": 354125,
+        "min": 128042,
+        "p95": 1471333,
+        "unit": "nanoseconds"
+      },
+      "edges": 128,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 32,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 688
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 1367041,
+        "median": 251042,
+        "min": 90583,
+        "p95": 748458,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 2589792,
+        "median": 100458,
+        "min": 37333,
+        "p95": 408667,
+        "unit": "nanoseconds"
+      },
+      "worlds": 64
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 3875,
+        "median": 1083,
+        "min": 1000,
+        "p95": 1208,
+        "unit": "nanoseconds"
+      },
+      "edges": 128,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 32,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 3542,
+        "median": 750,
+        "min": 708,
+        "p95": 875,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 64
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 539,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 464
+      },
+      "combined": {
+        "max": 2877750,
+        "median": 548792,
+        "min": 95917,
+        "p95": 1651875,
+        "unit": "nanoseconds"
+      },
+      "edges": 256,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 64,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 650
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 2668708,
+        "median": 425250,
+        "min": 70292,
+        "p95": 1580542,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 607625,
+        "median": 56584,
+        "min": 25541,
+        "p95": 208625,
+        "unit": "nanoseconds"
+      },
+      "worlds": 128
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 9166,
+      "checker_stats": {
+        "nodes": 129,
+        "work": 4866
+      },
+      "combined": {
+        "max": 4844083,
+        "median": 1793917,
+        "min": 537292,
+        "p95": 4842209,
+        "unit": "nanoseconds"
+      },
+      "edges": 256,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 64,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 129,
+        "work": 6819
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 3612500,
+        "median": 1170875,
+        "min": 381500,
+        "p95": 3545041,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 3247250,
+        "median": 332166,
+        "min": 125250,
+        "p95": 2990041,
+        "unit": "nanoseconds"
+      },
+      "worlds": 128
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1117,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 1385
+      },
+      "combined": {
+        "max": 2447708,
+        "median": 1170417,
+        "min": 286917,
+        "p95": 2414458,
+        "unit": "nanoseconds"
+      },
+      "edges": 256,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 64,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 1360
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 2330042,
+        "median": 692583,
+        "min": 204917,
+        "p95": 1819250,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 1676708,
+        "median": 225667,
+        "min": 81917,
+        "p95": 1501334,
+        "unit": "nanoseconds"
+      },
+      "worlds": 128
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 1291,
+        "median": 1167,
+        "min": 1042,
+        "p95": 1209,
+        "unit": "nanoseconds"
+      },
+      "edges": 256,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 64,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 917,
+        "median": 875,
+        "min": 791,
+        "p95": 917,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 128
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 540,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 912
+      },
+      "combined": {
+        "max": 3838458,
+        "median": 749625,
+        "min": 234291,
+        "p95": 3531208,
+        "unit": "nanoseconds"
+      },
+      "edges": 512,
+      "family": "ambiguity",
+      "horizon": 2,
+      "initial_worlds": 128,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 1290
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 3551875,
+        "median": 528875,
+        "min": 166416,
+        "p95": 3189291,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 1799458,
+        "median": 185333,
+        "min": 66583,
+        "p95": 1289709,
+        "unit": "nanoseconds"
+      },
+      "worlds": 256
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 18191,
+      "checker_stats": {
+        "nodes": 257,
+        "work": 17922
+      },
+      "combined": {
+        "max": 33282375,
+        "median": 4300500,
+        "min": 2110458,
+        "p95": 21515250,
+        "unit": "nanoseconds"
+      },
+      "edges": 512,
+      "family": "branching",
+      "horizon": 2,
+      "initial_worlds": 128,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 257,
+        "work": 25923
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 25646625,
+        "median": 3038583,
+        "min": 1371792,
+        "p95": 20263125,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 7635291,
+        "median": 993709,
+        "min": 434792,
+        "p95": 5140208,
+        "unit": "nanoseconds"
+      },
+      "worlds": 256
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 1117,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 2729
+      },
+      "combined": {
+        "max": 6010834,
+        "median": 2692333,
+        "min": 725167,
+        "p95": 4925833,
+        "unit": "nanoseconds"
+      },
+      "edges": 512,
+      "family": "unresolved",
+      "horizon": 4,
+      "initial_worlds": 128,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 5,
+        "work": 2704
+      },
+      "status": "no_policy_within_horizon",
+      "synthesis": {
+        "max": 4402084,
+        "median": 1910041,
+        "min": 450333,
+        "p95": 3656292,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 2900333,
+        "median": 615750,
+        "min": 215417,
+        "p95": 1608375,
+        "unit": "nanoseconds"
+      },
+      "worlds": 256
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 234,
+      "checker_stats": null,
+      "combined": {
+        "max": 1541,
+        "median": 1334,
+        "min": 1250,
+        "p95": 1417,
+        "unit": "nanoseconds"
+      },
+      "edges": 512,
+      "family": "cutoff",
+      "horizon": 2,
+      "initial_worlds": 128,
+      "limit": {
+        "cap": 1,
+        "consumed": 1,
+        "stage": "search_work"
+      },
+      "max_nodes": 10000,
+      "max_work": 1,
+      "solver_stats": {
+        "nodes": 1,
+        "work": 1
+      },
+      "status": "unknown",
+      "synthesis": {
+        "max": 1250,
+        "median": 1083,
+        "min": 1000,
+        "p95": 1125,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 21,
+      "verification": null,
+      "worlds": 256
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 530,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 41
+      },
+      "combined": {
+        "max": 52167,
+        "median": 43708,
+        "min": 43166,
+        "p95": 48250,
+        "unit": "nanoseconds"
+      },
+      "edges": 18,
+      "family": "stale-receipt-refresh",
+      "horizon": 3,
+      "initial_worlds": 2,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 8,
+        "work": 83
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 39417,
+        "median": 35166,
+        "min": 34625,
+        "p95": 38125,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 15000,
+        "median": 8333,
+        "min": 8208,
+        "p95": 8583,
+        "unit": "nanoseconds"
+      },
+      "worlds": 6
+    },
+    {
+      "actions": 2,
+      "artifact_bytes": 521,
+      "checker_stats": {
+        "nodes": 5,
+        "work": 41
+      },
+      "combined": {
+        "max": 610000,
+        "median": 23667,
+        "min": 17667,
+        "p95": 34084,
+        "unit": "nanoseconds"
+      },
+      "edges": 13,
+      "family": "identity-expired-ledger",
+      "horizon": 3,
+      "initial_worlds": 2,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 6,
+        "work": 41
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 25584,
+        "median": 17750,
+        "min": 14375,
+        "p95": 25167,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 585000,
+        "median": 5750,
+        "min": 3208,
+        "p95": 10417,
+        "unit": "nanoseconds"
+      },
+      "worlds": 6
+    },
+    {
+      "actions": 3,
+      "artifact_bytes": 661,
+      "checker_stats": {
+        "nodes": 6,
+        "work": 62
+      },
+      "combined": {
+        "max": 444417,
+        "median": 53709,
+        "min": 42333,
+        "p95": 253708,
+        "unit": "nanoseconds"
+      },
+      "edges": 24,
+      "family": "partial-stage-status",
+      "horizon": 3,
+      "initial_worlds": 3,
+      "limit": null,
+      "max_nodes": 10000,
+      "max_work": 1000000,
+      "solver_stats": {
+        "nodes": 9,
+        "work": 111
+      },
+      "status": "policy_found",
+      "synthesis": {
+        "max": 431542,
+        "median": 41417,
+        "min": 33791,
+        "p95": 202792,
+        "unit": "nanoseconds"
+      },
+      "unknown_samples": 0,
+      "verification": {
+        "max": 87708,
+        "median": 11042,
+        "min": 8375,
+        "p95": 50666,
+        "unit": "nanoseconds"
+      },
+      "worlds": 8
+    }
+  ],
+  "samples": 21,
+  "schema_version": 1,
+  "timing_scope": "in-process analysis and independent verification; excludes compilation, file IO and report serialization",
+  "warmups": 3
+}

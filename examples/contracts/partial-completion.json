@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "name": "partial-completion",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "none",
+        "left",
+        "right",
+        "both"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "none"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "left"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "right"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "both"
+      }
+    ]
+  },
+  "safe": {
+    "op": "true"
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "both"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "inspect",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "both"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "left"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "right"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "none"
+            }
+          ],
+          "observe": "none"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "left"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "left"
+            }
+          ],
+          "observe": "left"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "right"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "right"
+            }
+          ],
+          "observe": "right"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "both"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "both"
+            }
+          ],
+          "observe": "both"
+        }
+      ]
+    },
+    {
+      "id": "complete-left",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "right"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "left"
+            }
+          ],
+          "observe": "ok"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "right"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "both"
+            }
+          ],
+          "observe": "ok"
+        }
+      ]
+    },
+    {
+      "id": "complete-right",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "left"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "none"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "right"
+            }
+          ],
+          "observe": "ok"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "left"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "both"
+            }
+          ],
+          "observe": "ok"
+        }
+      ]
+    }
+  ]
+}

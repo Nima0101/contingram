@@ -1,0 +1,49 @@
+{
+  "horizon": 3,
+  "certificate": {
+    "root": 3,
+    "nodes": [
+      {
+        "kind": "goal"
+      },
+      {
+        "kind": "choose",
+        "action": "notify",
+        "branches": [
+          {
+            "observation": "notified",
+            "next": 0
+          }
+        ]
+      },
+      {
+        "kind": "choose",
+        "action": "reserve",
+        "branches": [
+          {
+            "observation": "reserved",
+            "next": 1
+          }
+        ]
+      },
+      {
+        "kind": "choose",
+        "action": "inspect",
+        "branches": [
+          {
+            "observation": "complete",
+            "next": 0
+          },
+          {
+            "observation": "empty",
+            "next": 2
+          },
+          {
+            "observation": "reserved",
+            "next": 1
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,325 @@
+{
+  "schema_version": 1,
+  "name": "identity-bound",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "absent",
+        "foreign",
+        "done",
+        "bad"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "absent"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "foreign"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "state",
+      "value": "bad"
+    }
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "send",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "absent"
+            }
+          ],
+          "observe": "missing"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "foreign"
+            }
+          ],
+          "observe": "receipt"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "receipt"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "missing"
+        }
+      ]
+    },
+    {
+      "id": "bound-status",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "absent"
+            }
+          ],
+          "observe": "absent"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "foreign"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "foreign"
+            }
+          ],
+          "observe": "foreign"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "done"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "bad"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "bad"
+            }
+          ],
+          "observe": "bad"
+        }
+      ]
+    }
+  ]
+}

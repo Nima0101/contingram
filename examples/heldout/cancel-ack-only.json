@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "name": "cancel-ack-only",
+  "variables": [
+    {
+      "name": "phase",
+      "values": [
+        "absent",
+        "pending",
+        "done",
+        "duplicate"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "phase",
+      "value": "duplicate"
+    }
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "phase",
+      "value": "duplicate"
+    }
+  },
+  "goal": {
+    "op": "eq",
+    "var": "phase",
+    "value": "done"
+  },
+  "actions": [
+    {
+      "id": "cancel",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "ack-absent",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "absent"
+          },
+          "set": [],
+          "observe": "cancel-ack"
+        },
+        {
+          "id": "ack-pending",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "pending"
+          },
+          "set": [],
+          "observe": "cancel-ack"
+        },
+        {
+          "id": "ack-done",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "done"
+          },
+          "set": [],
+          "observe": "cancel-ack"
+        },
+        {
+          "id": "ack-duplicate",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "duplicate"
+          },
+          "set": [],
+          "observe": "cancel-ack"
+        },
+        {
+          "id": "late-commit",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "pending"
+          },
+          "set": [
+            {
+              "var": "phase",
+              "value": "done"
+            }
+          ],
+          "observe": "cancel-ack"
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "none",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "absent"
+          },
+          "set": [],
+          "observe": "absent"
+        },
+        {
+          "id": "pending-hidden",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "pending"
+          },
+          "set": [],
+          "observe": "absent"
+        },
+        {
+          "id": "late-hidden",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "pending"
+          },
+          "set": [
+            {
+              "var": "phase",
+              "value": "done"
+            }
+          ],
+          "observe": "absent"
+        },
+        {
+          "id": "done",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "done"
+          },
+          "set": [],
+          "observe": "committed"
+        },
+        {
+          "id": "bad",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "duplicate"
+          },
+          "set": [],
+          "observe": "duplicate"
+        }
+      ]
+    },
+    {
+      "id": "retry",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "first",
+          "when": {
+            "op": "eq",
+            "var": "phase",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "phase",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "unsafe",
+          "when": {
+            "op": "not",
+            "arg": {
+              "op": "eq",
+              "var": "phase",
+              "value": "absent"
+            }
+          },
+          "set": [
+            {
+              "var": "phase",
+              "value": "duplicate"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    }
+  ]
+}

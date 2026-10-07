@@ -1,0 +1,104 @@
+{
+  "basis": "Independent direct predicate evaluation and finite outcome enumeration; no policy search or production lowering run.",
+  "contracts": [
+    {
+      "file": "cancel-ack-only.json",
+      "bytes": 3955,
+      "lines": 205,
+      "variables": 1,
+      "worlds": 4,
+      "initial_worlds": 3,
+      "actions": 3,
+      "outcomes": 12,
+      "edges": 14
+    },
+    {
+      "file": "cancel-fenced.json",
+      "bytes": 5350,
+      "lines": 273,
+      "variables": 1,
+      "worlds": 4,
+      "initial_worlds": 3,
+      "actions": 4,
+      "outcomes": 17,
+      "edges": 19
+    },
+    {
+      "file": "identity-expired-blind.json",
+      "bytes": 3045,
+      "lines": 161,
+      "variables": 2,
+      "worlds": 6,
+      "initial_worlds": 2,
+      "actions": 1,
+      "outcomes": 5,
+      "edges": 7
+    },
+    {
+      "file": "identity-expired-ledger.json",
+      "bytes": 4105,
+      "lines": 214,
+      "variables": 2,
+      "worlds": 6,
+      "initial_worlds": 2,
+      "actions": 2,
+      "outcomes": 8,
+      "edges": 13
+    },
+    {
+      "file": "identity-retained.json",
+      "bytes": 2394,
+      "lines": 132,
+      "variables": 2,
+      "worlds": 6,
+      "initial_worlds": 2,
+      "actions": 1,
+      "outcomes": 4,
+      "edges": 6
+    },
+    {
+      "file": "partial-object-status.json",
+      "bytes": 6071,
+      "lines": 300,
+      "variables": 3,
+      "worlds": 8,
+      "initial_worlds": 3,
+      "actions": 3,
+      "outcomes": 9,
+      "edges": 24
+    },
+    {
+      "file": "partial-stage-status.json",
+      "bytes": 6060,
+      "lines": 300,
+      "variables": 3,
+      "worlds": 8,
+      "initial_worlds": 3,
+      "actions": 3,
+      "outcomes": 9,
+      "edges": 24
+    },
+    {
+      "file": "stale-receipt-refresh.json",
+      "bytes": 3817,
+      "lines": 201,
+      "variables": 2,
+      "worlds": 6,
+      "initial_worlds": 2,
+      "actions": 3,
+      "outcomes": 7,
+      "edges": 18
+    },
+    {
+      "file": "stale-receipt-sticky.json",
+      "bytes": 3976,
+      "lines": 209,
+      "variables": 2,
+      "worlds": 6,
+      "initial_worlds": 2,
+      "actions": 3,
+      "outcomes": 8,
+      "edges": 21
+    }
+  ]
+}

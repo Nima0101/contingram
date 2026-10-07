@@ -1,0 +1,19 @@
+name: Bug report
+description: Report a reproducible correctness, CLI, or documentation problem.
+body:
+  - type: markdown
+    attributes:
+      value: "For sensitive vulnerabilities use SECURITY.md. Share only minimal synthetic contracts; remove secrets and identifying data."
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Version, OS family, exact command, and minimal synthetic input.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

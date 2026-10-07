@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "basis": "Independent manual reasoning before inspecting or running solver code.",
+  "cases": [
+    {
+      "file": "stale-receipt-sticky.json",
+      "first_winning_horizon": null,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 4,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 8,
+          "status": "no_policy_within_horizon"
+        }
+      ],
+      "rationale": "Old receipts never distinguish absent from done; an adversary may keep refresh stale forever."
+    },
+    {
+      "file": "stale-receipt-refresh.json",
+      "first_winning_horizon": 3,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 4,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 8,
+          "status": "policy_found"
+        }
+      ],
+      "rationale": "Refresh then status then conditional send; absent requires three calls. No shorter informative path exists."
+    },
+    {
+      "file": "cancel-ack-only.json",
+      "first_winning_horizon": null,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 4,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 8,
+          "status": "no_policy_within_horizon"
+        }
+      ],
+      "rationale": "Pending work may survive every cancel/status sequence; retry is unsafe, and the goal is not universal."
+    },
+    {
+      "file": "cancel-fenced.json",
+      "first_winning_horizon": 2,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 3,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 4,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 8,
+          "status": "policy_found"
+        }
+      ],
+      "rationale": "Fence settles or cancels all pending work and distinguishes committed from final absence; retry only final absence."
+    },
+    {
+      "file": "partial-object-status.json",
+      "first_winning_horizon": null,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 4,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 8,
+          "status": "no_policy_within_horizon"
+        }
+      ],
+      "rationale": "Record-exists merges reserved with complete. Notify duplicates one world; reserve duplicates both; inspect cannot refine."
+    },
+    {
+      "file": "partial-stage-status.json",
+      "first_winning_horizon": 3,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 4,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 8,
+          "status": "policy_found"
+        }
+      ],
+      "rationale": "Inspect; empty -> reserve then notify; reserved -> notify; complete -> stop. Empty branch requires three calls."
+    },
+    {
+      "file": "identity-retained.json",
+      "first_winning_horizon": 1,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 2,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 3,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 4,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 8,
+          "status": "policy_found"
+        }
+      ],
+      "rationale": "One resend safely creates or deduplicates the operation; no sensing is necessary."
+    },
+    {
+      "file": "identity-expired-blind.json",
+      "first_winning_horizon": null,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 3,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 4,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 8,
+          "status": "no_policy_within_horizon"
+        }
+      ],
+      "rationale": "Retry may lose its retained identity before deduplication; one possible committed world becomes duplicate."
+    },
+    {
+      "file": "identity-expired-ledger.json",
+      "first_winning_horizon": 2,
+      "expected": [
+        {
+          "horizon": 0,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 1,
+          "status": "no_policy_within_horizon"
+        },
+        {
+          "horizon": 2,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 3,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 4,
+          "status": "policy_found"
+        },
+        {
+          "horizon": 8,
+          "status": "policy_found"
+        }
+      ],
+      "rationale": "Authoritative operation ledger survives dedup expiry. Read zero -> resend; one -> stop. Ledger never races a pending effect in this model."
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "name": "multistep-sensing",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "a",
+        "b",
+        "c",
+        "done"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "a"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "b"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "c"
+      }
+    ]
+  },
+  "safe": {
+    "op": "true"
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "classify",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "a"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "a"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "a"
+            }
+          ],
+          "observe": "a"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "b"
+            }
+          ],
+          "observe": "other"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "c"
+            }
+          ],
+          "observe": "other"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "other"
+        }
+      ]
+    },
+    {
+      "id": "detail",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "b"
+            }
+          ],
+          "observe": "b"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "c"
+            }
+          ],
+          "observe": "c"
+        }
+      ]
+    },
+    {
+      "id": "resolve-a",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "a"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "a"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "resolve-b",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "b"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "resolve-c",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "c"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    }
+  ]
+}

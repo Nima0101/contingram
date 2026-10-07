@@ -1,0 +1,26 @@
+[package]
+name = "contingram"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+description = "Compile finite tool recovery contracts into independently checked contingent policies"
+license = "Apache-2.0"
+repository = "https://github.com/Nima0101/contingram"
+readme = "README.md"
+keywords = ["planning", "agents", "verification", "recovery", "tools"]
+categories = ["command-line-utilities", "development-tools"]
+include = ["/src/**", "/tests/**", "/examples/**", "/docs/**", "/benchmarks/**", "/Cargo.toml", "/Cargo.lock", "/README.md", "/LICENSE", "/NOTICE", "/CHANGELOG.md", "/SECURITY.md", "/TRADEMARKS.md", "/CONTRIBUTING.md", "/CODE_OF_CONDUCT.md", "/GOVERNANCE.md", "/ROADMAP.md"]
+
+[dependencies]
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.145"
+sha2 = "=0.10.9"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+overflow-checks = true
+
+[target.'cfg(unix)'.dependencies]
+libc = "=0.2.190"

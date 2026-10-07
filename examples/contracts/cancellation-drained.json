@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "name": "cancellation-drained",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "pending",
+        "acknowledged",
+        "quiet"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "pending"
+      }
+    ]
+  },
+  "safe": {
+    "op": "true"
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "quiet"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "cancel",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "pending"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "pending"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "acknowledged"
+            }
+          ],
+          "observe": "accepted"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "acknowledged"
+            }
+          ],
+          "observe": "accepted"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "quiet"
+            }
+          ],
+          "observe": "accepted"
+        }
+      ]
+    },
+    {
+      "id": "poll",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "pending"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "pending"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "pending"
+            }
+          ],
+          "observe": "waiting"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "acknowledged"
+            }
+          ],
+          "observe": "waiting"
+        },
+        {
+          "id": "r2",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "quiet"
+            }
+          ],
+          "observe": "waiting"
+        },
+        {
+          "id": "r3",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "quiet"
+            }
+          ],
+          "observe": "waiting"
+        }
+      ]
+    },
+    {
+      "id": "drain",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "acknowledged"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "quiet"
+            }
+          ],
+          "observe": "quiescent"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "quiet"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "quiet"
+            }
+          ],
+          "observe": "quiescent"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "name": "idempotent-retry",
+  "variables": [
+    {
+      "name": "state",
+      "values": [
+        "absent",
+        "done"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "absent"
+      },
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "safe": {
+    "op": "true"
+  },
+  "goal": {
+    "op": "any",
+    "args": [
+      {
+        "op": "eq",
+        "var": "state",
+        "value": "done"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "retry",
+      "enabled": {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          }
+        ]
+      },
+      "outcomes": [
+        {
+          "id": "r0",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "r1",
+          "when": {
+            "op": "eq",
+            "var": "state",
+            "value": "done"
+          },
+          "set": [
+            {
+              "var": "state",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    }
+  ]
+}

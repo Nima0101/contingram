@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "name": "stale-receipt-sticky",
+  "variables": [
+    {
+      "name": "effect",
+      "values": [
+        "absent",
+        "done",
+        "duplicate"
+      ]
+    },
+    {
+      "name": "receipt",
+      "values": [
+        "old",
+        "current"
+      ]
+    }
+  ],
+  "initial": {
+    "op": "all",
+    "args": [
+      {
+        "op": "eq",
+        "var": "receipt",
+        "value": "old"
+      },
+      {
+        "op": "any",
+        "args": [
+          {
+            "op": "eq",
+            "var": "effect",
+            "value": "absent"
+          },
+          {
+            "op": "eq",
+            "var": "effect",
+            "value": "done"
+          }
+        ]
+      }
+    ]
+  },
+  "safe": {
+    "op": "not",
+    "arg": {
+      "op": "eq",
+      "var": "effect",
+      "value": "duplicate"
+    }
+  },
+  "goal": {
+    "op": "eq",
+    "var": "effect",
+    "value": "done"
+  },
+  "actions": [
+    {
+      "id": "send",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "first",
+          "when": {
+            "op": "eq",
+            "var": "effect",
+            "value": "absent"
+          },
+          "set": [
+            {
+              "var": "effect",
+              "value": "done"
+            }
+          ],
+          "observe": "ack"
+        },
+        {
+          "id": "repeat",
+          "when": {
+            "op": "not",
+            "arg": {
+              "op": "eq",
+              "var": "effect",
+              "value": "absent"
+            }
+          },
+          "set": [
+            {
+              "var": "effect",
+              "value": "duplicate"
+            }
+          ],
+          "observe": "ack"
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "old-receipt",
+          "when": {
+            "op": "eq",
+            "var": "receipt",
+            "value": "old"
+          },
+          "set": [],
+          "observe": "receipt-other"
+        },
+        {
+          "id": "current-absent",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "receipt",
+                "value": "current"
+              },
+              {
+                "op": "eq",
+                "var": "effect",
+                "value": "absent"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "absent"
+        },
+        {
+          "id": "current-done",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "receipt",
+                "value": "current"
+              },
+              {
+                "op": "eq",
+                "var": "effect",
+                "value": "done"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "done"
+        },
+        {
+          "id": "current-duplicate",
+          "when": {
+            "op": "all",
+            "args": [
+              {
+                "op": "eq",
+                "var": "receipt",
+                "value": "current"
+              },
+              {
+                "op": "eq",
+                "var": "effect",
+                "value": "duplicate"
+              }
+            ]
+          },
+          "set": [],
+          "observe": "duplicate"
+        }
+      ]
+    },
+    {
+      "id": "refresh",
+      "enabled": {
+        "op": "true"
+      },
+      "outcomes": [
+        {
+          "id": "fresh",
+          "when": {
+            "op": "true"
+          },
+          "set": [
+            {
+              "var": "receipt",
+              "value": "current"
+            }
+          ],
+          "observe": "refresh-ack"
+        },
+        {
+          "id": "stale",
+          "when": {
+            "op": "true"
+          },
+          "set": [],
+          "observe": "refresh-ack"
+        }
+      ]
+    }
+  ]
+}

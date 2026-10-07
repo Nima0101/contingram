@@ -1,0 +1,35 @@
+{
+  "horizon": 2,
+  "certificate": {
+    "root": 2,
+    "nodes": [
+      {
+        "kind": "goal"
+      },
+      {
+        "kind": "choose",
+        "action": "resend",
+        "branches": [
+          {
+            "observation": "ack",
+            "next": 0
+          }
+        ]
+      },
+      {
+        "kind": "choose",
+        "action": "ledger",
+        "branches": [
+          {
+            "observation": "one",
+            "next": 0
+          },
+          {
+            "observation": "zero",
+            "next": 1
+          }
+        ]
+      }
+    ]
+  }
+}
