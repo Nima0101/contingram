@@ -1,5 +1,9 @@
 # Contingram
 
+<p align="center">
+  <img src="docs/assets/contingram.webp" alt="Contingram — AI-agent recovery-policy synthesis and verification" width="320">
+</p>
+
 **Can an agent safely finish after a tool's response is lost?** Contingram compiles a finite tool contract into an observation-based recovery policy—or a checkable proof that no policy works within your decision bound.
 
 A timeout does not reveal whether an effect happened. Retrying can duplicate it; a stale status read can make that retry look safe. Contingram lets connector and SDK maintainers compare recovery interfaces before implementing a controller. It runs offline, requires no model API key, and never invokes tools.
